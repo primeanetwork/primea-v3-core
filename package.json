@@ -35,7 +35,7 @@
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-etherscan": "^3.1.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@typechain/ethers-v5": "^10.1.0",
+    "@typechain/ethers-v5": "^10.2.0",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "chai": "^4.3.7",
@@ -52,7 +52,7 @@
     "solhint-plugin-prettier": "^0.0.5",
     "ts-generator": "^0.1.1",
     "ts-node": "^10.9.1",
-    "typechain": "^5.0.0",
+    "typechain": "^8.1.0",
     "typescript": "^5.3.3"
   },
   "scripts": {
