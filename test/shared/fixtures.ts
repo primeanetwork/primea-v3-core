@@ -1,21 +1,21 @@
 import { BigNumber } from 'ethers'
 import { ethers } from 'hardhat'
-import { MockTimeUniswapV3Pool } from '../../typechain/MockTimeUniswapV3Pool'
+import { MockTimePrimeaV3Pool } from '../../typechain/MockTimePrimeaV3Pool'
 import { TestERC20 } from '../../typechain/TestERC20'
-import { UniswapV3Factory } from '../../typechain/UniswapV3Factory'
-import { TestUniswapV3Callee } from '../../typechain/TestUniswapV3Callee'
-import { TestUniswapV3Router } from '../../typechain/TestUniswapV3Router'
-import { MockTimeUniswapV3PoolDeployer } from '../../typechain/MockTimeUniswapV3PoolDeployer'
+import { PrimeaV3Factory } from '../../typechain/PrimeaV3Factory'
+import { TestPrimeaV3Callee } from '../../typechain/TestPrimeaV3Callee'
+import { TestPrimeaV3Router } from '../../typechain/TestPrimeaV3Router'
+import { MockTimePrimeaV3PoolDeployer } from '../../typechain/MockTimePrimeaV3PoolDeployer'
 
 import { Fixture } from 'ethereum-waffle'
 
 interface FactoryFixture {
-  factory: UniswapV3Factory
+  factory: PrimeaV3Factory
 }
 
 async function factoryFixture(): Promise<FactoryFixture> {
-  const factoryFactory = await ethers.getContractFactory('UniswapV3Factory')
-  const factory = (await factoryFactory.deploy()) as UniswapV3Factory
+  const factoryFactory = await ethers.getContractFactory('PrimeaV3Factory')
+  const factory = (await factoryFactory.deploy()) as PrimeaV3Factory
   return { factory }
 }
 
@@ -41,14 +41,14 @@ async function tokensFixture(): Promise<TokensFixture> {
 type TokensAndFactoryFixture = FactoryFixture & TokensFixture
 
 interface PoolFixture extends TokensAndFactoryFixture {
-  swapTargetCallee: TestUniswapV3Callee
-  swapTargetRouter: TestUniswapV3Router
+  swapTargetCallee: TestPrimeaV3Callee
+  swapTargetRouter: TestPrimeaV3Router
   createPool(
     fee: number,
     tickSpacing: number,
     firstToken?: TestERC20,
     secondToken?: TestERC20
-  ): Promise<MockTimeUniswapV3Pool>
+  ): Promise<MockTimePrimeaV3Pool>
 }
 
 // Monday, October 5, 2020 9:00:00 AM GMT-05:00
@@ -58,14 +58,14 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
   const { factory } = await factoryFixture()
   const { token0, token1, token2 } = await tokensFixture()
 
-  const MockTimeUniswapV3PoolDeployerFactory = await ethers.getContractFactory('MockTimeUniswapV3PoolDeployer')
-  const MockTimeUniswapV3PoolFactory = await ethers.getContractFactory('MockTimeUniswapV3Pool')
+  const MockTimePrimeaV3PoolDeployerFactory = await ethers.getContractFactory('MockTimePrimeaV3PoolDeployer')
+  const MockTimePrimeaV3PoolFactory = await ethers.getContractFactory('MockTimePrimeaV3Pool')
 
-  const calleeContractFactory = await ethers.getContractFactory('TestUniswapV3Callee')
-  const routerContractFactory = await ethers.getContractFactory('TestUniswapV3Router')
+  const calleeContractFactory = await ethers.getContractFactory('TestPrimeaV3Callee')
+  const routerContractFactory = await ethers.getContractFactory('TestPrimeaV3Router')
 
-  const swapTargetCallee = (await calleeContractFactory.deploy()) as TestUniswapV3Callee
-  const swapTargetRouter = (await routerContractFactory.deploy()) as TestUniswapV3Router
+  const swapTargetCallee = (await calleeContractFactory.deploy()) as TestPrimeaV3Callee
+  const swapTargetRouter = (await routerContractFactory.deploy()) as TestPrimeaV3Router
 
   return {
     token0,
@@ -75,7 +75,7 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
     swapTargetCallee,
     swapTargetRouter,
     createPool: async (fee, tickSpacing, firstToken = token0, secondToken = token1) => {
-      const mockTimePoolDeployer = (await MockTimeUniswapV3PoolDeployerFactory.deploy()) as MockTimeUniswapV3PoolDeployer
+      const mockTimePoolDeployer = (await MockTimePrimeaV3PoolDeployerFactory.deploy()) as MockTimePrimeaV3PoolDeployer
       const tx = await mockTimePoolDeployer.deploy(
         factory.address,
         firstToken.address,
@@ -86,7 +86,7 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
 
       const receipt = await tx.wait()
       const poolAddress = receipt.events?.[0].args?.pool as string
-      return MockTimeUniswapV3PoolFactory.attach(poolAddress) as MockTimeUniswapV3Pool
+      return MockTimePrimeaV3PoolFactory.attach(poolAddress) as MockTimePrimeaV3Pool
     },
   }
 }

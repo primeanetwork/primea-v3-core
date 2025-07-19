@@ -1,26 +1,29 @@
 {
-  "name": "@uniswap/v3-core",
-  "description": "🦄 Core smart contracts of Uniswap V3",
-  "license": "BUSL-1.1",
+  "name": "@primea/v3-core",
+  "description": "Governance-restricted core contracts forked from Uniswap V3, adapted for Primea Network",
+  "license": "GPL-2.0-or-later",
   "publishConfig": {
     "access": "public"
   },
   "version": "1.0.1",
-  "homepage": "https://uniswap.org",
+  "homepage": "https://primeanetwork.com",
   "keywords": [
-    "uniswap",
+    "primea", 
+    "amm", 
+    "v3", 
+    "dex", 
     "core",
-    "v3"
+    "liquidity"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uniswap/uniswap-v3-core"
+    "url": "https://github.com/primeanetwork/primea-v3-core"
   },
   "files": [
     "contracts/interfaces",
     "contracts/libraries",
-    "artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json",
-    "artifacts/contracts/UniswapV3Pool.sol/UniswapV3Pool.json",
+    "artifacts/contracts/PrimeaV3Factory.sol/PrimeaV3Factory.json",
+    "artifacts/contracts/PrimeaV3Pool.sol/PrimeaV3Pool.json",
     "artifacts/contracts/interfaces/**/*.json",
     "!artifacts/contracts/interfaces/**/*.dbg.json"
   ],

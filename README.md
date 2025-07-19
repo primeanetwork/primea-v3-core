@@ -1,66 +1,58 @@
-# Uniswap V3
+# Primea V3 Core
 
-[![Lint](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/lint.yml/badge.svg)](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/lint.yml)
-[![Tests](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/tests.yml/badge.svg)](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/tests.yml)
-[![Fuzz Testing](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/fuzz-testing.yml/badge.svg)](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/fuzz-testing.yml)
-[![Mythx](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/mythx.yml/badge.svg)](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/mythx.yml)
-[![npm version](https://img.shields.io/npm/v/@uniswap/v3-core/latest.svg)](https://www.npmjs.com/package/@uniswap/v3-core/v/latest)
+[![Lint](https://github.com/PrimeaNetwork/primea-v3-core/actions/workflows/lint.yml/badge.svg)](https://github.com/PrimeaNetwork/primea-v3-core/actions/workflows/lint.yml)
+[![Tests](https://github.com/PrimeaNetwork/primea-v3-core/actions/workflows/tests.yml/badge.svg)](https://github.com/PrimeaNetwork/primea-v3-core/actions/workflows/tests.yml)
+[![Fuzz Testing](https://github.com/PrimeaNetwork/primea-v3-core/actions/workflows/fuzz-testing.yml/badge.svg)](https://github.com/PrimeaNetwork/primea-v3-core/actions/workflows/fuzz-testing.yml)
+[![npm version](https://img.shields.io/npm/v/@primea/v3-core/latest.svg)](https://www.npmjs.com/package/@primea/v3-core/v/latest)
 
-This repository contains the core smart contracts for the Uniswap V3 Protocol.
-For higher level contracts, see the [uniswap-v3-periphery](https://github.com/Uniswap/uniswap-v3-periphery)
-repository.
+This repository contains the core smart contracts for the Primea V3 Protocol. Forked from Uniswap v3-core (GPL-2.0-or-later) and adapted for Primea’s governance architecture.
 
-## Bug bounty
+For higher-level contracts and integrations, see the [primea-v3-periphery](https://github.com/PrimeaNetwork/primea-v3-periphery) repository.
 
-This repository is subject to the Uniswap V3 bug bounty program, per the terms defined [here](./bug-bounty.md).
+## License and Attribution
 
-## Local deployment
+This repository is a fork of [Uniswap v3-core (archived)](https://github.com/Uniswap/v3-core), originally licensed under Business Source License 1.1 (BUSL-1.1). As of **April 1, 2024**, per Uniswap Labs’ licensing policy, the code is now available under the **GNU General Public License v2.0 or later**.
 
-In order to deploy this code to a local testnet, you should install the npm package
-`@uniswap/v3-core`
-and import the factory bytecode located at
-`@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json`.
-For example:
+All files in this repository are governed by the `GPL-2.0-or-later` license unless otherwise specified in the SPDX headers.
+
+## Bug Bounty
+
+Primea will offer a security bounty program for vulnerabilities discovered in this implementation. Details will be announced post-mainnet.
+
+## Local Deployment
+
+To deploy this code locally, install the npm package `@primea/v3-core` and import the factory bytecode located at:
 
 ```typescript
 import {
   abi as FACTORY_ABI,
   bytecode as FACTORY_BYTECODE,
-} from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json'
-
-// deploy the bytecode
+} from '@primea/v3-core/artifacts/contracts/PrimeaV3Factory.sol/PrimeaV3Factory.json'
 ```
 
-This will ensure that you are testing against the same bytecode that is deployed to
-mainnet and public testnets, and all Uniswap code will correctly interoperate with
-your local deployment.
+## Solidity Interfaces
 
-## Using solidity interfaces
-
-The Uniswap v3 interfaces are available for import into solidity smart contracts
-via the npm artifact `@uniswap/v3-core`, e.g.:
+Interfaces are available via:
 
 ```solidity
-import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+import '@primea/v3-core/contracts/interfaces/IPrimeaV3Pool.sol';
 
 contract MyContract {
-  IUniswapV3Pool pool;
+  IPrimeaV3Pool pool;
 
-  function doSomethingWithPool() {
+  function doSomethingWithPool() external {
     // pool.swap(...);
   }
 }
-
 ```
 
-## Licensing
+## SPDX Headers
 
-The primary license for Uniswap V3 Core is the Business Source License 1.1 (`BUSL-1.1`), see [`LICENSE`](./LICENSE). However, some files are dual licensed under `GPL-2.0-or-later`:
+All source files include proper SPDX identifiers:
 
-- All files in `contracts/interfaces/` may also be licensed under `GPL-2.0-or-later` (as indicated in their SPDX headers), see [`contracts/interfaces/LICENSE`](./contracts/interfaces/LICENSE)
-- Several files in `contracts/libraries/` may also be licensed under `GPL-2.0-or-later` (as indicated in their SPDX headers), see [`contracts/libraries/LICENSE`](contracts/libraries/LICENSE)
+- Most contracts: `SPDX-License-Identifier: GPL-2.0-or-later`
+- Legacy libraries (e.g., FullMath.sol): `SPDX-License-Identifier: MIT`
 
-### Other Exceptions
+## Note
 
-- `contracts/libraries/FullMath.sol` is licensed under `MIT` (as indicated in its SPDX header), see [`contracts/libraries/LICENSE_MIT`](contracts/libraries/LICENSE_MIT)
-- All files in `contracts/test` remain unlicensed (as indicated in their SPDX headers).
+This is a governance-controlled version of the v3 AMM model, tailored for asset-backed pairs on Primea, with enforced token whitelisting via `GovernedPoolFactory.sol` and `TokenRegistry.sol`.
